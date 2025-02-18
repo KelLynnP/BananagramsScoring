@@ -1,2 +1,2 @@
-# -BananagramsScoring
+# BananagramsScoring
 Scoring for bannagrams
