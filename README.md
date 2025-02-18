@@ -1,0 +1,2 @@
+# -BananagramsScoring
+Scoring for bannagrams
