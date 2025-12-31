@@ -91,75 +91,37 @@ class _GalleryScreenState extends State<GalleryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bannagram Scorer'),
-      ),
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (_selectedImage != null)
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 16.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    child: Image.file(
-                      _selectedImage!,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                )
-              else
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 16.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'No image selected',
-                        style: TextStyle(fontSize: 18.0, color: Colors.grey),
-                      ),
-                    ),
-                  ),
-                ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Expanded(flex: 1, child: SizedBox()),
+            if (_selectedImage != null)
               Expanded(
-                flex: 1,
-                child: Column(
-                  children: [
-                    ElevatedButton.icon(
-                      icon: const Icon(Icons.photo_library),
-                      label: const Text('Select from Gallery'),
-                      onPressed: _isLoading ? null : _selectImage,
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 32.0,
-                          vertical: 12.0,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16.0),
-                    if (_isLoading)
-                      Column(
-                        children: const [
-                          CircularProgressIndicator(),
-                          SizedBox(height: 8.0),
-                          Text('Processing image...'),
-                        ],
-                      ),
-                  ],
+                flex: 3,
+                child: Image.file(
+                  _selectedImage!,
+                  fit: BoxFit.contain,
+                ),
+              )
+            else
+              const Expanded(
+                flex: 3,
+                child: Text(
+                  'No image selected',
+                  style: TextStyle(fontSize: 18.0, color: Colors.grey),
                 ),
               ),
-            ],
-          ),
+            const Expanded(flex: 1, child: SizedBox()),
+            if (_isLoading)
+              const CircularProgressIndicator()
+            else
+              InkWell(
+                onTap: _selectImage,
+                child: const Icon(Icons.photo_library, size: 40),
+              ),
+            const Expanded(flex: 2, child: SizedBox()),
+          ],
         ),
       ),
     );
