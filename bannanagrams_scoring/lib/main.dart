@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   }
 }
 void _navigatetoCamera (BuildContext context) async{
-  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: 
+  Navigator.of(context).push(MaterialPageRoute(builder: 
   (context) => const GalleryScreen()));
 }
 
@@ -57,7 +57,39 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () {
                 _navigatetoCamera(context);
               },
-              child: const Icon(Icons.camera_alt_outlined),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black, width: 2),
+                      borderRadius: BorderRadius.circular(12),
+                      color: const Color(0xFFFFF5C2),
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        // Yellow background
+                        Container(
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 246, 244, 230),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        // Camera icon on top
+                        const Icon(Icons.camera_alt_outlined, size: 40),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'score a game!',
+                    style: TextStyle(fontSize: 12, color: Colors.black54),
+                  ),
+                ],
+              ),
             ),
             const Expanded(flex: 2, child: SizedBox()), // Bottom spacing
           ],

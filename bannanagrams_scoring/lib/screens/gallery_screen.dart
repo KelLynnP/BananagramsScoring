@@ -93,6 +93,12 @@ class _GalleryScreenState extends State<GalleryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Bannagram Scorer'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
       body: Center(
         child: Padding(
@@ -106,11 +112,15 @@ class _GalleryScreenState extends State<GalleryScreen> {
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 16.0),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
+                      border: Border.all(color: Colors.black, width: 2),
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Image.file(
-                      _selectedImage!,
-                      fit: BoxFit.contain,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.file(
+                        _selectedImage!,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 )
@@ -120,13 +130,14 @@ class _GalleryScreenState extends State<GalleryScreen> {
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 16.0),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(color: Colors.black, width: 2),
+                      borderRadius: BorderRadius.circular(12),
+                      color: const Color.fromARGB(255, 246, 244, 230),
                     ),
                     child: const Center(
                       child: Text(
                         'No image selected',
-                        style: TextStyle(fontSize: 18.0, color: Colors.grey),
+                        style: TextStyle(fontSize: 18, color: Colors.black54),
                       ),
                     ),
                   ),
@@ -134,16 +145,40 @@ class _GalleryScreenState extends State<GalleryScreen> {
               Expanded(
                 flex: 1,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ElevatedButton.icon(
-                      icon: const Icon(Icons.photo_library),
-                      label: const Text('Select from Gallery'),
-                      onPressed: _isLoading ? null : _selectImage,
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 32.0,
-                          vertical: 12.0,
-                        ),
+                    InkWell(
+                      onTap: _isLoading ? null : _selectImage,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            width: 80,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black, width: 2),
+                              borderRadius: BorderRadius.circular(12),
+                              color: const Color(0xFFFFF5C2),
+                            ),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(255, 246, 244, 230),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                const Icon(Icons.photo_library, size: 40),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'select from gallery',
+                            style: TextStyle(fontSize: 12, color: Colors.black54),
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 16.0),
@@ -152,7 +187,10 @@ class _GalleryScreenState extends State<GalleryScreen> {
                         children: const [
                           CircularProgressIndicator(),
                           SizedBox(height: 8.0),
-                          Text('Processing image...'),
+                          Text(
+                            'Processing image...',
+                            style: TextStyle(fontSize: 12, color: Colors.black54),
+                          ),
                         ],
                       ),
                   ],
