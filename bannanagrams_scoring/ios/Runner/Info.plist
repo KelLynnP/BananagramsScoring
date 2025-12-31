@@ -45,5 +45,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Bannagram Scorer needs access to your photos to select game images for scoring.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Bannagram Scorer needs to save processed images to your photo library.</string>
 </dict>
 </plist>
