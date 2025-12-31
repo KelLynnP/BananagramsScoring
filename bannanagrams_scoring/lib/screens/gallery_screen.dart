@@ -107,10 +107,13 @@ class _GalleryScreenState extends State<GalleryScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (_selectedImage != null)
-                Expanded(
-                  flex: 3,
+                Flexible(
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 16.0),
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height * 0.7,
+                      maxWidth: MediaQuery.of(context).size.width - 32,
+                    ),
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.black, width: 2),
                       borderRadius: BorderRadius.circular(12),
