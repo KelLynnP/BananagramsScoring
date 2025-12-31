@@ -92,7 +92,10 @@ class _GalleryScreenState extends State<GalleryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bannagram Scorer'),
+        title: const Text(
+          'Bannagram Scorer',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {

@@ -20,7 +20,10 @@ class ResultsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Results'),
+        title: const Text(
+          'Results',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
@@ -34,7 +37,10 @@ class ResultsScreen extends StatelessWidget {
             children: [
               // Image preview
               Container(
-                height: 250,
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.4,
+                  maxWidth: MediaQuery.of(context).size.width - 32,
+                ),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black, width: 2),
                   borderRadius: BorderRadius.circular(12),
