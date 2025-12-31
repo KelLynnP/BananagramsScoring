@@ -1,6 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import '../image_processing/gallery_handler.dart';
+import '../services/ocr_service.dart';
+import '../services/scoring_service.dart';
+import 'results_screen.dart';
 
 class GalleryScreen extends StatefulWidget {
   const GalleryScreen({Key? key}) : super(key: key);
@@ -11,6 +14,8 @@ class GalleryScreen extends StatefulWidget {
 
 class _GalleryScreenState extends State<GalleryScreen> {
   final GalleryHandler _galleryHandler = GalleryHandler();
+  final OCRService _ocrService = OCRService();
+  final ScoringService _scoringService = ScoringService();
   File? _selectedImage;
   bool _isLoading = false;
 
@@ -33,15 +38,54 @@ class _GalleryScreenState extends State<GalleryScreen> {
   }
   
   Future<void> _processImage(File imageFile) async {
-    // This is where you'd call your OCR service
-    // For now, we'll just navigate to results with the image path
-    
-    // Example navigation:
-    Navigator.pushNamed(
-      context, 
-      '/results',
-      arguments: {'imagePath': imageFile.path}
-    );
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      // Extract letters using OCR
+      String detectedLetters = await _ocrService.extractLetters(imageFile);
+      
+      // Calculate score
+      int totalScore = _scoringService.calculateScore(detectedLetters);
+      
+      setState(() {
+        _isLoading = false;
+      });
+      
+      // Navigate to results screen
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ResultsScreen(
+              imageFile: imageFile,
+              detectedLetters: detectedLetters,
+              totalScore: totalScore,
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error processing image: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _ocrService.dispose();
+    super.dispose();
   }
 
   @override
@@ -104,7 +148,13 @@ class _GalleryScreenState extends State<GalleryScreen> {
                     ),
                     const SizedBox(height: 16.0),
                     if (_isLoading)
-                      const CircularProgressIndicator(),
+                      Column(
+                        children: const [
+                          CircularProgressIndicator(),
+                          SizedBox(height: 8.0),
+                          Text('Processing image...'),
+                        ],
+                      ),
                   ],
                 ),
               ),
